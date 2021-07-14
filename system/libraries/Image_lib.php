@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Image_lib
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/libraries/image_lib.html
+ * @link		https://codeigniter.com/userguide3/libraries/image_lib.html
  */
 class CI_Image_lib {
 
@@ -946,6 +946,10 @@ class CI_Image_lib {
 				$cmd_in		= 'pngtopnm';
 				$cmd_out	= 'ppmtopng';
 				break;
+			case 18 :
+				$cmd_in		= 'webptopnm';
+				$cmd_out	= 'ppmtowebp';
+				break;
 		}
 
 		if ($action === 'crop')
@@ -1472,6 +1476,14 @@ class CI_Image_lib {
 				}
 
 				return imagecreatefrompng($path);
+			case 18:
+				if ( ! function_exists('imagecreatefromwebp'))
+				{
+					$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_webp_not_supported'));
+					return FALSE;
+				}
+
+				return imagecreatefromwebp($path);
 			default:
 				$this->set_error(array('imglib_unsupported_imagecreate'));
 				return FALSE;
@@ -1532,6 +1544,19 @@ class CI_Image_lib {
 					return FALSE;
 				}
 			break;
+			case 18:
+				if ( ! function_exists('imagewebp'))
+				{
+					$this->set_error(array('imglib_unsupported_imagecreate', 'imglib_webp_not_supported'));
+					return FALSE;
+				}
+
+				if ( ! @imagewebp($resource, $this->full_dst_path))
+				{
+					$this->set_error('imglib_save_failed');
+					return FALSE;
+				}
+			break;
 			default:
 				$this->set_error(array('imglib_unsupported_imagecreate'));
 				return FALSE;
@@ -1572,6 +1597,8 @@ class CI_Image_lib {
 			case 2	:	imagejpeg($resource, NULL, $this->quality);
 				break;
 			case 3	:	imagepng($resource);
+				break;
+			case 18	:	imagewebp($resource);
 				break;
 			default:	echo 'Unable to display the image';
 				break;

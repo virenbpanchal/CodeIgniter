@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Sessions
  * @author	Andrey Andreev
- * @link	https://codeigniter.com/user_guide/libraries/sessions.html
+ * @link	https://codeigniter.com/userguide3/libraries/sessions.html
  */
 class CI_Session_redis_driver extends CI_Session_driver implements SessionHandlerInterface {
 
@@ -137,7 +137,7 @@ class CI_Session_redis_driver extends CI_Session_driver implements SessionHandle
 		{
 			$save_path = array('path' => $matches[1]);
 		}
-		elseif (preg_match('#(?:tcp://)?([^:?]+)(?:\:(\d+))?(?<options>\?.+)?#', $this->_config['save_path'], $matches))
+		elseif (preg_match('#(?:(?:tcp|tls)://)?([^:?]+)(?:\:(\d+))?(?<options>\?.+)?#', $this->_config['save_path'], $matches))
 		{
 			$save_path = array(
 				'host'    => $matches[1],

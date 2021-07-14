@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/helpers/captcha_helper.html
+ * @link		https://codeigniter.com/userguide3/helpers/captcha_helper.html
  */
 
 // ------------------------------------------------------------------------
@@ -69,6 +69,7 @@ if ( ! function_exists('create_captcha'))
 			'img_width'	=> '150',
 			'img_height'	=> '30',
 			'img_alt'	=> 'captcha',
+			'img_class'	=> '',
 			'font_path'	=> '',
 			'font_size'	=> 16,
 			'expiration'	=> 7200,
@@ -100,6 +101,18 @@ if ( ! function_exists('create_captcha'))
 		if ( ! extension_loaded('gd'))
 		{
 			log_message('error', 'create_captcha(): GD extension is not loaded.');
+			return FALSE;
+		}
+
+		if ($img_path === '' OR $img_url === '')
+		{
+			log_message('error', 'create_captcha(): $img_path and $img_url are required.');
+			return FALSE;
+		}
+
+		if ( ! is_dir($img_path) OR ! is_really_writable($img_path))
+		{
+			log_message('error', "create_captcha(): '{$img_path}' is not a dir, nor is it writable.");
 			return FALSE;
 		}
 
@@ -360,7 +373,10 @@ if ( ! function_exists('create_captcha'))
 			$img_src = 'data:image/png;base64,'.base64_encode($img_src);
 		}
 
-		$img = '<img '.($img_id === '' ? '' : 'id="'.$img_id.'"').' src="'.$img_src.'" style="width: '.$img_width.'px; height: '.$img_height .'px; border: 0;" alt="'.$img_alt.'" />';
+		$img_class = trim($img_class);
+		$img_class = (bool) strlen($img_class) ? 'class="'.$img_class.'" ' : '';
+
+		$img = '<img '.($img_id === '' ? '' : 'id="'.$img_id.'"').' src="'.$img_src.'" style="width: '.$img_width.'px; height: '.$img_height .'px; border: 0;" '.$img_class.'alt="'.$img_alt.'" />';
 		ImageDestroy($im);
 
 		return array('word' => $word, 'time' => $now, 'image' => $img, 'filename' => $img_filename);
