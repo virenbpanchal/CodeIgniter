@@ -13,9 +13,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 | WARNING: You MUST set this value!
 |
-| If it is not set, then CodeIgniter will try guess the protocol and path
-| your installation, but due to security concerns the hostname will be set
-| to $_SERVER['SERVER_ADDR'] if available, or localhost otherwise.
+| If it is not set, then CodeIgniter will try to guess the protocol and
+| path to your installation, but due to security concerns the hostname will
+| be set to $_SERVER['SERVER_ADDR'] if available, or localhost otherwise.
 | The auto-detection mechanism exists only for convenience during
 | development and MUST NOT be used in production!
 |
@@ -228,17 +228,14 @@ $config['log_path'] = '';
 
 /*
 |--------------------------------------------------------------------------
-| Log File Extension
+| Error Logging FILENAME
 |--------------------------------------------------------------------------
 |
-| The default filename extension for log files. The default 'php' allows for
-| protecting the log files via basic scripting, when they are to be stored
-| under a publicly accessible directory.
-|
-| Note: Leaving it blank will default to 'php'.
+| Leave this BLANK unless you would like to set something other than the default
+| 'log-'.date('Y-m-d').'.php'. No DIRECTORY_SEPARATOR(s), just the filename.
 |
 */
-$config['log_file_extension'] = '';
+$config['log_filename'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -329,6 +326,10 @@ $config['encryption_key'] = '';
 |
 |	The session cookie name, must contain only [0-9a-z_-] characters
 |
+| 'sess_samesite'
+|
+|	Session cookie SameSite attribute: Lax (default), Strict or None
+|
 | 'sess_expiration'
 |
 |	The number of SECONDS you want the session to last.
@@ -369,6 +370,7 @@ $config['encryption_key'] = '';
 */
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
+$config['sess_samesite'] = 'Lax';
 $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;
@@ -385,6 +387,7 @@ $config['sess_regenerate_destroy'] = FALSE;
 | 'cookie_path'     = Typically will be a forward slash
 | 'cookie_secure'   = Cookie will only be set if a secure HTTPS connection exists.
 | 'cookie_httponly' = Cookie will only be accessible via HTTP(S) (no javascript)
+| 'cookie_samesite' = Cookie's samesite attribute (Lax, Strict or None)
 |
 | Note: These settings (with the exception of 'cookie_prefix' and
 |       'cookie_httponly') will also affect sessions.
@@ -395,6 +398,7 @@ $config['cookie_domain']	= '';
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;
+$config['cookie_samesite'] 	= 'Lax';
 
 /*
 |--------------------------------------------------------------------------

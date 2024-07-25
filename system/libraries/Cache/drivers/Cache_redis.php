@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
+ * Copyright (c) 2019 - 2022, CodeIgniter Foundation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
  * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright	Copyright (c) 2019 - 2022, CodeIgniter Foundation (https://codeigniter.com/)
  * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 3.0.0
@@ -58,7 +59,7 @@ class CI_Cache_redis extends CI_Driver
 		'host' => '127.0.0.1',
 		'password' => NULL,
 		'port' => 6379,
-		'timeout' => 0,
+		'timeout' => 0.0,
 		'database' => 0
 	);
 
@@ -68,7 +69,6 @@ class CI_Cache_redis extends CI_Driver
 	 * @var	Redis
 	 */
 	protected $_redis;
-
 
 	/**
 	 * del()/delete() method name depending on phpRedis version
@@ -95,6 +95,7 @@ class CI_Cache_redis extends CI_Driver
 	 * if a Redis connection can't be established.
 	 *
 	 * @return	void
+	 * @throws	RedisException
 	 * @see		Redis::connect()
 	 */
 	public function __construct()
@@ -132,26 +133,21 @@ class CI_Cache_redis extends CI_Driver
 
 		$this->_redis = new Redis();
 
-		try
+		// The following calls used to be wrapped in a try ... catch
+		// and just log an error, but that only causes more errors later.
+		if ( ! $this->_redis->connect($config['host'], ($config['host'][0] === '/' ? 0 : $config['port']), $config['timeout']))
 		{
-			if ( ! $this->_redis->connect($config['host'], ($config['host'][0] === '/' ? 0 : $config['port']), $config['timeout']))
-			{
-				log_message('error', 'Cache: Redis connection failed. Check your configuration.');
-			}
-
-			if (isset($config['password']) && ! $this->_redis->auth($config['password']))
-			{
-				log_message('error', 'Cache: Redis authentication failed.');
-			}
-
-			if (isset($config['database']) && $config['database'] > 0 && ! $this->_redis->select($config['database']))
-			{
-				log_message('error', 'Cache: Redis select database failed.');
-			}
+			log_message('error', 'Cache: Redis connection failed. Check your configuration.');
 		}
-		catch (RedisException $e)
+
+		if (isset($config['password']) && ! $this->_redis->auth($config['password']))
 		{
-			log_message('error', 'Cache: Redis connection refused ('.$e->getMessage().')');
+			log_message('error', 'Cache: Redis authentication failed.');
+		}
+
+		if (isset($config['database']) && $config['database'] > 0 && ! $this->_redis->select($config['database']))
+		{
+			log_message('error', 'Cache: Redis select database failed.');
 		}
 	}
 

@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
+ * Copyright (c) 2019 - 2022, CodeIgniter Foundation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
  * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright	Copyright (c) 2019 - 2022, CodeIgniter Foundation (https://codeigniter.com/)
  * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -851,11 +852,6 @@ class CI_Form_validation {
 		{
 			return $line;
 		}
-		// DEPRECATED support for non-prefixed keys, lang file again
-		elseif (FALSE !== ($line = $this->CI->lang->line($rule, FALSE)))
-		{
-			return $line;
-		}
 
 		return $this->CI->lang->line('form_validation_error_message_not_set').'('.$rule.')';
 	}
@@ -1062,7 +1058,7 @@ class CI_Form_validation {
 	{
 		return is_array($str)
 			? (empty($str) === FALSE)
-			: (trim($str) !== '');
+			: (trim((string) $str) !== '');
 	}
 
 	// --------------------------------------------------------------------

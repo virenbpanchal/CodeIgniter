@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
+ * Copyright (c) 2019 - 2022, CodeIgniter Foundation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
  * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright	Copyright (c) 2019 - 2022, CodeIgniter Foundation (https://codeigniter.com/)
  * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -445,72 +446,6 @@ if ( ! function_exists('human_to_unix'))
 		}
 
 		return mktime($hour, $min, $sec, $month, $day, $year);
-	}
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists('nice_date'))
-{
-	/**
-	 * Turns many "reasonably-date-like" strings into something
-	 * that is actually useful. This only works for dates after unix epoch.
-	 *
-	 * @deprecated	3.1.3	Use DateTime::createFromFormat($input_format, $input)->format($output_format);
-	 * @param	string	The terribly formatted date-like string
-	 * @param	string	Date format to return (same as php date function)
-	 * @return	string
-	 */
-	function nice_date($bad_date = '', $format = FALSE)
-	{
-		if (empty($bad_date))
-		{
-			return 'Unknown';
-		}
-		elseif (empty($format))
-		{
-			$format = 'U';
-		}
-
-		// Date like: YYYYMM
-		if (preg_match('/^\d{6}$/i', $bad_date))
-		{
-			if (in_array(substr($bad_date, 0, 2), array('19', '20')))
-			{
-				$year  = substr($bad_date, 0, 4);
-				$month = substr($bad_date, 4, 2);
-			}
-			else
-			{
-				$month  = substr($bad_date, 0, 2);
-				$year   = substr($bad_date, 2, 4);
-			}
-
-			return date($format, strtotime($year.'-'.$month.'-01'));
-		}
-
-		// Date Like: YYYYMMDD
-		if (preg_match('/^\d{8}$/i', $bad_date, $matches))
-		{
-			return DateTime::createFromFormat('Ymd', $bad_date)->format($format);
-		}
-
-		// Date Like: MM-DD-YYYY __or__ M-D-YYYY (or anything in between)
-		if (preg_match('/^(\d{1,2})-(\d{1,2})-(\d{4})$/i', $bad_date, $matches))
-		{
-			return date($format, strtotime($matches[3].'-'.$matches[1].'-'.$matches[2]));
-		}
-
-		// Any other kind of string, when converted into UNIX time,
-		// produces "0 seconds after epoc..." is probably bad...
-		// return "Invalid Date".
-		if (date('U', strtotime($bad_date)) === '0')
-		{
-			return 'Invalid Date';
-		}
-
-		// It's probably a valid-ish date format already
-		return date($format, strtotime($bad_date));
 	}
 }
 

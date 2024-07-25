@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
+ * Copyright (c) 2019 - 2022, CodeIgniter Foundation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
  * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright	Copyright (c) 2019 - 2022, CodeIgniter Foundation (https://codeigniter.com/)
  * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -470,31 +471,20 @@ if ( ! function_exists('url_title'))
 	 * human-friendly URL string with a "separator" string
 	 * as the word separator.
 	 *
-	 * @todo	Remove old 'dash' and 'underscore' usage in 3.1+.
 	 * @param	string	$str		Input string
-	 * @param	string	$separator	Word separator
-	 *			(usually '-' or '_')
+	 * @param	string	$separator	Word separator (usually '-' or '_')
 	 * @param	bool	$lowercase	Whether to transform the output string to lowercase
 	 * @return	string
 	 */
 	function url_title($str, $separator = '-', $lowercase = FALSE)
 	{
-		if ($separator === 'dash')
-		{
-			$separator = '-';
-		}
-		elseif ($separator === 'underscore')
-		{
-			$separator = '_';
-		}
-
 		$q_separator = preg_quote($separator, '#');
 
 		$trans = array(
 			'&.+?;'			=> '',
 			'[^\w\d _-]'		=> '',
 			'\s+'			=> $separator,
-			'('.$q_separator.')+'	=> $separator
+			'('.$q_separator.')+'	=> $separator,
 		);
 
 		$str = strip_tags($str);

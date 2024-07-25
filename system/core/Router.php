@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
+ * Copyright (c) 2019 - 2022, CodeIgniter Foundation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
  * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright	Copyright (c) 2019 - 2022, CodeIgniter Foundation (https://codeigniter.com/)
  * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -83,7 +84,7 @@ class CI_Router {
 	 *
 	 * @var	string
 	 */
-	public $directory;
+	public $directory = '';
 
 	/**
 	 * Default controller (and method if specific)
@@ -332,7 +333,7 @@ class CI_Router {
 	protected function _validate_request($segments)
 	{
 		$c = count($segments);
-		$directory_override = isset($this->directory);
+		$directory_override = $this->directory !== '';
 
 		// Loop through our segments and return as soon as a controller
 		// is found or when such a directory doesn't exist

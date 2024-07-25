@@ -47,8 +47,7 @@ fi
 
 echo "Running tests ..."
 
-cd tests/
-phpunit
+php -d zend.enable_gc=0 -d date.timezone=UTC -d mbstring.func_overload=7 -d mbstring.internal_encoding=UTF-8 vendor/bin/phpunit --coverage-text --configuration tests/travis/sqlite.phpunit.xml
 
 if [ $? -ne 0 ]
 then
@@ -56,7 +55,6 @@ then
 	exit 1
 fi
 
-cd ..
 cd user_guide_src/
 
 echo ""
@@ -64,19 +62,6 @@ echo "Building HTML docs; please check output for warnings ..."
 echo ""
 
 make html
-
-echo ""
-
-if [ $? -ne 0 ]
-then
-	echo "Build FAILED!"
-	exit 1
-fi
-
-echo "Building EPUB docs; please check output for warnings ..."
-echo ""
-
-make epub
 
 echo ""
 
@@ -94,6 +79,6 @@ then
 fi
 
 cp -r user_guide_src/build/html/ user_guide/
-cp user_guide_src/build/epub/CodeIgniter.epub "CodeIgniter ${version_number}.epub"
+git add user_guide/
 
 echo "Build complete."

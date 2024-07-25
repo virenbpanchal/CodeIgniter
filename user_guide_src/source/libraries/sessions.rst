@@ -438,6 +438,8 @@ Preference                   Default         Options                            
 ============================ =============== ======================================== ============================================================================================
 **sess_driver**              files           files/database/redis/memcached/*custom*  The session storage driver to use.
 **sess_cookie_name**         ci_session      [A-Za-z\_-] characters only              The name used for the session cookie.
+**sess_samesite**            ci_session      'Lax', 'Strict' or 'None'                SameSite attribute value for session cookies.
+                                                                                      Defaults to ``session.cookie_samesite`` on PHP 7.3+ or 'Lax' if not present at all.
 **sess_expiration**          7200 (2 hours)  Time in seconds (integer)                The number of seconds you would like the session to last.
                                                                                       If you would like a non-expiring session (until browser is closed) set the value to zero: 0
 **sess_save_path**           NULL            None                                     Specifies the storage location, depends on the driver being used.
@@ -569,8 +571,6 @@ However, there are some conditions that must be met:
 
   - Only your **default** database connection (or the one that you access
     as ``$this->db`` from your controllers) can be used.
-  - You must have the :doc:`Query Builder </database/query_builder>`
-    enabled.
   - You can NOT use a persistent connection.
   - You can NOT use a connection with the *cache_on* setting enabled.
 

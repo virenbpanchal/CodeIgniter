@@ -213,6 +213,7 @@ CodeIgniter versions that have been removed in 3.2.0:
 - ``CI_Form_validation::prep_for_form()`` (the *prep_for_form* rule)
 
 - ``standard_date()`` :doc:`Date Helper <../helpers/date_helper>` function (use ``date()`` instead)
+- ``nice_date()`` :doc:`Date Helper <../helpers/date_helper>` function (use ``DateTime::format()`` instead)
 - ``do_hash()`` :doc:`Security Helper <../helpers/security_helper>` function (use ``hash()`` instead)
 - ``br()`` :doc:`HTML Helper <../helpers/html_helper>` function (use ``str_repeat()`` with ``'<br />'`` instead)
 - ``nbs()`` :doc:`HTML Helper <../helpers/html_helper>` function (use ``str_repeat()`` with ``'&nbsp;'`` instead)
@@ -221,6 +222,7 @@ CodeIgniter versions that have been removed in 3.2.0:
 - ``read_file()`` :doc:`File Helper <../helpers/file_helper>` function (use ``file_get_contents()`` instead)
 - ``form_prep()`` :doc:`Form Helper <../helpers/form_helper>` function (use :php:func:`html_escape()` instead)
 
+- The entire *Encrypt Library* (the newer :doc:`Encryption Library <../libraries/encryption>` is still available)
 - The entire *Cart Library* (an archived version is available on GitHub: `bcit-ci/ci3-cart-library <https://github.com/bcit-ci/ci3-cart-library>`_)
 - The entire *Javascript Library* (it was always experimental in the first place)
 
@@ -230,6 +232,13 @@ CodeIgniter versions that have been removed in 3.2.0:
    - ``send_email()`` (use ``mail()`` instead)
 
 - The entire *Smiley Helper* (an archived version is available on GitHub: `bcit-ci/ci3-smiley-helper <https://github.com/bcit-ci/ci3-smiley-helper>`_)
+
+- The ``$_after`` parameter from :doc:`Database Forge <../database/forge>` method ``add_column()``.
+- The ``anchor_class`` option from :doc:`Pagination Library <../libraries/pagination>` (use ``class`` instead).
+- The ``unique`` and ``encrypt`` options from :doc:`String Helper <../helpers/string_helper>` function ``random_string()``.
+- The ``underscore`` and ``dash`` options from :doc:`URL Helper <../helpers/url_helper>`` function :php:func:`url_title()`.
+- The ``$img_path``, ``$img_url`` and ``$font_path`` parameters from
+  :doc:`CAPCHA Helper <../helpers/captcha_helper>` function :php:func:`create_captcha()` (pass as array options instead).
 
 Step 11: Make sure you're validating all user inputs
 ====================================================
@@ -257,3 +266,25 @@ so that if you're using the :doc:`Web Page Caching <../general/caching>`
 feature, you'll be left with some old, garbage cache files.
 
 That shouldn't be a problem, but you may want to clear them.
+
+Step 13: Remove usage of OCI8 get_cursor() and stored_procedure() methods
+=========================================================================
+
+The OCI8 :doc:`Database <database/index>` driver no longer has these two
+methods that were specific to it and not present in other database drivers.
+The ``$curs_id`` property is also removed.
+
+If you were using those, you can create your own cursors via ``oci_new_cursor()``
+and the publicly accessible ``$conn_id``.
+
+Stop 14: Replace $config['log_file_extension'] with $config['log_filename'] in application/config/config.php
+============================================================================================================
+
+You can now specify the full log filename via ``$config['log_filename']``.
+Add this configuration option to your **application/config/config.php**,
+if you haven't copied the new one over.
+
+The previously existing ``$config['log_file_extension']`` option has been
+removed and no longer works. However, its functionality is essentially
+integrated into the new ``$config['log_filename']``, since it includes the
+filename extension in itself.

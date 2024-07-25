@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
+ * Copyright (c) 2019 - 2022, CodeIgniter Foundation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
  * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright	Copyright (c) 2019 - 2022, CodeIgniter Foundation (https://codeigniter.com/)
  * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -170,7 +171,7 @@ if ( ! function_exists('random_string'))
 	/**
 	 * Create a "Random" String
 	 *
-	 * @param	string	type of random string.  basic, alpha, alnum, numeric, nozero, unique, md5, encrypt and sha1
+	 * @param	string	type of random string.  basic, alpha, alnum, numeric, nozero, md5 and sha1
 	 * @param	int	number of characters
 	 * @return	string
 	 */
@@ -200,10 +201,8 @@ if ( ! function_exists('random_string'))
 						break;
 				}
 				return substr(str_shuffle(str_repeat($pool, ceil($len / strlen($pool)))), 0, $len);
-			case 'unique': // todo: remove in 3.1+
 			case 'md5':
 				return md5(uniqid(mt_rand()));
-			case 'encrypt': // todo: remove in 3.1+
 			case 'sha1':
 				return sha1(uniqid(mt_rand(), TRUE));
 		}

@@ -253,7 +253,10 @@ class Security_test extends CI_TestCase {
 		// Perform hash
 		$this->security->xss_hash();
 
-		$this->assertRegExp('#^[0-9a-f]{32}$#iS', $this->security->xss_hash);
+		$assertRegExp = method_exists($this, 'assertMatchesRegularExpression')
+			? 'assertMatchesRegularExpression'
+			: 'assertRegExp';
+		$this->$assertRegExp('#^[0-9a-f]{32}$#iS', $this->security->xss_hash);
 	}
 
 	// --------------------------------------------------------------------

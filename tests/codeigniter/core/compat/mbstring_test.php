@@ -27,27 +27,27 @@ class mbstring_test extends CI_TestCase {
 	// ------------------------------------------------------------------------
 
 	/**
-	 * @depends	test_boostrap
+	 * @depends	test_bootstrap
 	 */
 	public function test_mb_strpos()
 	{
-		$this->assertEquals(ICONV_ENABLED ? 3 : 6, mb_strpos('тест', 'с'));
+		$this->assertEquals(ICONV_ENABLED ? 2 : 4, mb_strpos('тест', 'с'));
 		$this->assertFalse(mb_strpos('тест', 'с', 3));
-		$this->assertEquals(ICONV_ENABLED ? 3 : 6, mb_strpos('тест', 'с', 1, 'UTF-8'));
+		$this->assertEquals(ICONV_ENABLED ? 2 : 4, mb_strpos('тест', 'с', 1, 'UTF-8'));
 	}
 
 	// ------------------------------------------------------------------------
 
 	/**
-	 * @depends	test_boostrap
+	 * @depends	test_bootstrap
 	 */
 	public function test_mb_substr()
 	{
 		$this->assertEquals(ICONV_ENABLED ? 'стинг' : 'естинг', mb_substr('тестинг', 2));
 		$this->assertEquals(ICONV_ENABLED ? 'нг' : 'г', mb_substr('тестинг', -2));
 		$this->assertEquals(ICONV_ENABLED ? 'ст' : 'е', mb_substr('тестинг', 2, 2));
-		$this->assertEquals(ICONV_ENABLED ? 'стинг' : 'естинг', mb_substr('тестинг', 2, 'UTF-8'));
-		$this->assertEquals(ICONV_ENABLED ? 'нг' : 'г', mb_substr('тестинг', -2, 'UTF-8'));
+		$this->assertEquals(ICONV_ENABLED ? 'стинг' : 'естинг', mb_substr('тестинг', 2, NULL, 'UTF-8'));
+		$this->assertEquals(ICONV_ENABLED ? 'нг' : 'г', mb_substr('тестинг', -2, NULL, 'UTF-8'));
 		$this->assertEquals(ICONV_ENABLED ? 'ст' : 'е', mb_substr('тестинг', 2, 2, 'UTF-8'));
 	}
 

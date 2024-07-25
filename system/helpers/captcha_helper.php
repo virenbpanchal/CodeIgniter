@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
+ * Copyright (c) 2019 - 2022, CodeIgniter Foundation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
  * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright	Copyright (c) 2019 - 2022, CodeIgniter Foundation (https://codeigniter.com/)
  * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -54,13 +55,10 @@ if ( ! function_exists('create_captcha'))
 	/**
 	 * Create CAPTCHA
 	 *
-	 * @param	array	$data		Data for the CAPTCHA
-	 * @param	string	$img_path	Path to create the image in (deprecated)
-	 * @param	string	$img_url	URL to the CAPTCHA image folder (deprecated)
-	 * @param	string	$font_path	Server path to font (deprecated)
-	 * @return	string
+	 * @param	array	$data	Data for the CAPTCHA
+	 * @return	array
 	 */
-	function create_captcha($data = '', $img_path = '', $img_url = '', $font_path = '')
+	function create_captcha($data)
 	{
 		$defaults = array(
 			'word'		=> '',
@@ -106,7 +104,7 @@ if ( ! function_exists('create_captcha'))
 
 		if ($img_path === '' OR $img_url === '')
 		{
-			log_message('error', 'create_captcha(): $img_path and $img_url are required.');
+			log_message('error', 'create_captcha(): img_path and img_url are required.');
 			return FALSE;
 		}
 
@@ -299,12 +297,12 @@ if ( ! function_exists('create_captcha'))
 		{
 			$theta += $thetac;
 			$rad = $radius * ($i / $points);
-			$x = ($rad * cos($theta)) + $x_axis;
-			$y = ($rad * sin($theta)) + $y_axis;
+			$x = round(($rad * cos($theta)) + $x_axis);
+			$y = round(($rad * sin($theta)) + $y_axis);
 			$theta += $thetac;
 			$rad1 = $radius * (($i + 1) / $points);
-			$x1 = ($rad1 * cos($theta)) + $x_axis;
-			$y1 = ($rad1 * sin($theta)) + $y_axis;
+			$x1 = round(($rad1 * cos($theta)) + $x_axis);
+			$y1 = round(($rad1 * sin($theta)) + $y_axis);
 			imageline($im, $x, $y, $x1, $y1, $colors['grid']);
 			$theta -= $thetac;
 		}
